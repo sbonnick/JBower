@@ -11,6 +11,10 @@ plugins {
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'application'
+//apply plugin: 'checkstyle'
+//apply plugin: 'codenarc'
+
+mainClassName = "com.autoclavestudios.jbower.console.Main"
 
 repositories {
     jcenter()
