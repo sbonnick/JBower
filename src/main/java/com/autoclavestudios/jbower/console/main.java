@@ -15,6 +15,13 @@
  */
 package com.autoclavestudios.jbower.console;
 
+import com.autoclavestudios.jbower.console.parameters.HelpParameters;
+import com.autoclavestudios.jbower.console.parameters.SearchParameters;
+import com.beust.jcommander.JCommander;
+import com.beust.jcommander.ParameterException;
+
+import java.text.ParseException;
+
 /**
  * Created by stewart on 2015-03-30.
  */
@@ -22,7 +29,24 @@ public class Main {
 
     public static void main(String[] args) {
 
+        HelpParameters helpParameters = new HelpParameters();
+        SearchParameters searchParameters = new SearchParameters();
+        JCommander jc = new JCommander(helpParameters);
+        jc.setProgramName("JBower");
+        jc.addCommand("search", searchParameters);
 
+        try {
+            jc.parse(args);
+        } catch (ParameterException ex) {
+            System.out.println(ex.getMessage());
+            if(jc.getParsedCommand() != null) {
+                jc.usage(jc.getParsedCommand());
+            } else {
+                jc.usage();
+            }
+        }
+
+        // Call search function
     }
 
 }

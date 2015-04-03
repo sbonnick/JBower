@@ -16,6 +16,7 @@
 package com.autoclavestudios.jbower.console.parameters;
 
 import com.beust.jcommander.Parameter;
+import com.beust.jcommander.Parameters;
 import com.beust.jcommander.ParametersDelegate;
 
 import java.util.ArrayList;
@@ -24,15 +25,13 @@ import java.util.List;
 /**
  * Created by stewart on 2015-03-30.
  */
-public class Search {
-
-    @Parameter(names = { "-h", "--help" }, description = "Show this help message", help = true)
-    private boolean help;
+@Parameters(commandNames = "search",commandDescription = "Search for a given package")
+public class SearchParameters {
 
     @Parameter(description = "name")
-    private List<String> name = new ArrayList<String>();
+    private List<String> name = new ArrayList<>();
 
     @ParametersDelegate
-    private Global delegate = new Global();
+    private GlobalParameters delegate = new GlobalParameters();
 
 }

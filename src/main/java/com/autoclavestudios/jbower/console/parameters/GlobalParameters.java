@@ -20,7 +20,10 @@ import com.beust.jcommander.Parameter;
 /**
  * Created by stewart on 2015-03-30.
  */
-public class Global {
+public class GlobalParameters {
+
+    @Parameter(names = { "-h", "--help" }, description = "Show this help message", help = true)
+    private boolean help;
 
     @Parameter(names = { "-f", "--force" }, description = "Makes various commands more forceful")
     private boolean force = false;
