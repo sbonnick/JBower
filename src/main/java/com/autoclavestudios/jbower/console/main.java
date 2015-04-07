@@ -1,5 +1,5 @@
 /**
- *    Copyright (C) 2015 Autoclave Studios <stewart.bonnick@autoclavestudios.com>
+ *    Copyright (C) 2015 Stewart Bonnick <stewart.bonnick@autoclavestudios.com>
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -19,8 +19,6 @@ import com.autoclavestudios.jbower.console.parameters.HelpParameters;
 import com.autoclavestudios.jbower.console.parameters.SearchParameters;
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.ParameterException;
-
-import java.text.ParseException;
 
 /**
  * Created by stewart on 2015-03-30.
