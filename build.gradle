@@ -1,23 +1,34 @@
-
-plugins {
-  id "com.github.hierynomus.license" version "0.11.0"
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.3.1"
+        classpath "nl.javadude.gradle.plugins:license-gradle-plugin:0.11.0"
+    }
 }
- 
+
+apply plugin: "com.github.hierynomus.license"
+apply plugin: "com.github.kt3k.coveralls"
+
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'application'
-apply plugin: 'jacoco'
 
 apply plugin: 'jdepend'
 apply plugin: 'checkstyle'
 apply plugin: 'pmd'
 apply plugin: 'findbugs'
 
+apply plugin: 'jacoco'
+
 mainClassName = "com.autoclavestudios.jbower.console.Main"
+sourceCompatibility = "1.8"
 
 repositories {
     jcenter()
-    mavenCentral()
 }
 
 dependencies {
@@ -35,22 +46,37 @@ idea.project.ipr {
     }
 }
 
+idea {
+    module {
+        downloadJavadoc = true
+        downloadSources = true
+    }
+}
+
 task wrapper(type: Wrapper) {
 	gradleVersion = "2.3"
 }
 
+// Checkstyle
+def checkstyleConfigDir = file('gradle') //new File(buildscript.sourceFile.parentFile, 'checkstyle')
+
 checkstyle {
-    configFile = file('gradle/checkstyle.xml')
+    ignoreFailures true
+    toolVersion = "6.5"
+    configFile =  new File(checkstyleConfigDir, "google_checks.xml")
+    configProperties.checkstyleConfigDir = checkstyleConfigDir
 }
 
 task checkstyleHtml << {
     ant.xslt(in: checkstyleMain.reports.xml.destination,
-            style: file('gradle/checkstyle.xsl'),
+            style: file('gradle/checkstyle-noframes-severity-sorted.xsl'),
             out: new File(checkstyleMain.reports.xml.destination.parent, 'main.html'))
 }
 
 checkstyleMain.finalizedBy checkstyleHtml
 
+
+// License
 license {
     header = project.file('gradle/HEADER')
     strictCheck = true
@@ -74,12 +100,45 @@ downloadLicenses {
     ]
 }
 
+
+// findbugs
 findbugs {
     ignoreFailures = true
-    sourceSets = [sourceSets.main]
+    toolVersion = "3.0.1"
     effort = "max"
+    reportLevel = "low"
 }
 
+
+//PMD
 pmd {
     ignoreFailures = true
+    toolVersion = "4.3"
+    ruleSets = ["basic", "braces", "codesize", "strings", "design", "unusedcode", "imports", "optimizations", "coupling"]
 }
+
+// JDepend
+jdepend {
+    toolVersion = "2.9.1"
+    sourceSets = [sourceSets.main]
+    ignoreFailures = true
+}
+
+task jdependHtml << {
+    ant.xslt(in: jdependMain.reports.xml.destination,
+            style: file('gradle/jdepend-report.xslt'),
+            out: new File(jdependMain.reports.xml.destination.parent, 'main.html'))
+}
+
+jdependMain.finalizedBy jdependHtml
+
+
+// Coverage
+jacocoTestReport {
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+}
+
+check.finalizedBy jacocoTestReport
