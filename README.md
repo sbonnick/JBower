@@ -8,7 +8,8 @@ Pure Java Alternative to Bower
 [![Circle CI](https://circleci.com/gh/sbonnick/JBower/tree/master.svg?style=svg)](https://circleci.com/gh/sbonnick/JBower/tree/master)
 
 
-![codecov.io](https://codecov.io/github/sbonnick/JBower/branch.svg?branch=master)
+[![codecov.io](https://codecov.io/github/sbonnick/JBower/branch.svg?branch=master)](https://codecov.io/github/sbonnick/JBower?branch=master)
+
 
 ## Bower Command line support
 | Command   | Bower     | JBower      |
