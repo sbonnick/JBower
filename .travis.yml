@@ -11,5 +11,8 @@ env:
 git:
   depth: 10
 
+before_install:
+  - chmod +x gradlew
+  
 after_success:
   - ./gradlew jacocoTestReport coveralls
