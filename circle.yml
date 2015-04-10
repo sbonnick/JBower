@@ -1,0 +1,16 @@
+machine:
+  java:
+    version: oraclejdk8
+  environment:
+    TERM: dumb
+    
+checkout:
+  post:
+    - chmod +x gradlew
+    - sudo pip install codecov
+    
+test:
+  post:
+    - sudo pip install codecov
+    - codecov --token=<your repo token>
+    - cp -R build/reports/* $CIRCLE_ARTIFACTS
