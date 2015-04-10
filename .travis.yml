@@ -11,6 +11,8 @@ git:
 
 before_install:
   - chmod +x gradlew
+  - sudo pip install codecov
   
 after_success:
   - ./gradlew jacocoTestReport coveralls
+  - codecov
