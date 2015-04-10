@@ -2,7 +2,7 @@
 Pure Java Alternative to Bower
 
 [![Build Status](https://travis-ci.org/sbonnick/JBower.svg)](https://travis-ci.org/sbonnick/JBower)
-[![Coverage Status](https://coveralls.io/repos/sbonnick/JBower/badge.svg)](https://coveralls.io/r/sbonnick/JBower)
+[![Coverage Status](https://coveralls.io/repos/sbonnick/JBower/badge.svg?branch=master)](https://coveralls.io/r/sbonnick/JBower?branch=master)
 
 
 ## Bower Command line support
