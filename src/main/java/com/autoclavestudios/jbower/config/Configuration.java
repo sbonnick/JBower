@@ -64,7 +64,7 @@ public class Configuration {
 
     public Configuration fromJson(String json) { return this; }
 
-    public Configuration fromJson(File json) { return this; }
+    public Configuration fromJson(File jsonFile) { return this; }
 
     /*
      *  Getter and setter functions
@@ -132,6 +132,14 @@ public class Configuration {
     }
 
 
+    public String shorthandResolver() { return this.shorthandResolver; }
+
+    public Configuration shorthandResolver(String shorthandResolver) {
+        this.shorthandResolver = shorthandResolver;
+        return this;
+    }
+
+
     public Registries registry() { return this.registries; }
 
     public Configuration registry(Registries registries) {
@@ -143,5 +151,4 @@ public class Configuration {
         registries.toAll(toAll);
         return this;
     }
-
 }

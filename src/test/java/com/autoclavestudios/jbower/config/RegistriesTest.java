@@ -18,7 +18,6 @@ package com.autoclavestudios.jbower.config;
 import org.junit.*;
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;

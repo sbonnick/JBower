@@ -78,7 +78,7 @@
     </style>
     </head>
     <body>
-      <a name="top"></a>
+      <a name="top"/>
       <!-- jakarta logo -->
       <table border="0" cellpadding="0" cellspacing="0" width="100%">
       <tr>
@@ -153,7 +153,7 @@
 
 
   <xsl:template match="file">
-    <a name="f-{translate(@name,'\','/')}"></a>
+    <a name="f-{translate(@name,'\','/')}"/>
     <h3>File <xsl:value-of select="@name"/></h3>
 
     <table class="log" border="0" cellpadding="5" cellspacing="2" width="100%">

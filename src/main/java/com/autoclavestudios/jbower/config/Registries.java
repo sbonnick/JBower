@@ -15,9 +15,12 @@
  */
 package com.autoclavestudios.jbower.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -29,6 +32,7 @@ public class Registries {
     private List<URL> registryRegister;
     private List<URL> registryPublish;
 
+    private final Logger logger = LoggerFactory.getLogger(Registries.class);
 
     public Registries() {
         registrySearch = new ArrayList<>();
@@ -46,7 +50,7 @@ public class Registries {
         registryRegister.clear();
         registryPublish.clear();
         return this;
-    };
+    }
 
     public Registries toAll(String ... urls) throws MalformedURLException {
         addUrl(registrySearch, urls);
@@ -116,7 +120,7 @@ public class Registries {
             try {
                 registry.add(new URL(url));
             } catch (MalformedURLException e) {
-                // LOG
+                logger.error("URL is malformed: {0}", url);
                 throw e;
             }
         }
@@ -124,7 +128,7 @@ public class Registries {
     }
 
     private Registries addUrl(List<URL> registry, URL ... urls) {
-        for(URL url : urls) { registry.add(url); }
+        Collections.addAll(registry, urls);
         return this;
     }
 }
