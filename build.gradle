@@ -7,7 +7,6 @@ buildscript {
     dependencies {
         classpath "org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.3.1"
         classpath "nl.javadude.gradle.plugins:license-gradle-plugin:0.11.0"
-        classpath "org.slf4j:slf4j-simple:1.7.12"
     }
 }
 
@@ -26,7 +25,8 @@ apply plugin: 'findbugs'
 apply plugin: 'jacoco'
 
 mainClassName = "com.autoclavestudios.jbower.console.Main"
-sourceCompatibility = "1.8"
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 repositories {
     jcenter()
@@ -38,6 +38,7 @@ dependencies {
     //compile     'org.fusesource.jansi:jansi:1.11'
     //compile     'org.eclipse.jgit:org.eclipse.jgit:3.7.0.201502260915-r'
     testCompile 'junit:junit:4.12'
+    testRuntime 'org.slf4j:slf4j-simple:1.7.12'
 }
 
 idea.project.ipr {
@@ -66,6 +67,7 @@ checkstyle {
     toolVersion = "6.5"
     configFile =  new File(checkstyleConfigDir, "google_checks.xml")
     configProperties.checkstyleConfigDir = checkstyleConfigDir
+    showViolations = false
 }
 
 task checkstyleHtml << {

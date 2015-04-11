@@ -10,7 +10,9 @@ checkout:
     - sudo pip install codecov
     
 test:
+  override:
+     - ./gradlew check
   post:
-    - sudo pip install codecov
+    - ./gradlew coveralls
     - codecov --token=67aaf07b-a4cf-4067-b05e-ca41d979232a
     - cp -R build/reports/* $CIRCLE_ARTIFACTS

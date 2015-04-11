@@ -61,9 +61,23 @@ public class RegistriesTest {
     }
 
     @Test
+    public void addURLtoAllRegistriesIndividually() {
+        URL[] urlArray = output.toArray(new URL[output.size()]);
+
+        registries = new Registries()
+            .toSearch(urlArray)
+            .toRegister(urlArray)
+            .toPublish(urlArray);
+
+        assertThat(registries.toSearch(), is(output));
+        assertThat(registries.toRegister(), is(output));
+        assertThat(registries.toPublish(), is(output));
+    }
+
+    @Test
     public void addStringsToAllRegistries() {
         try {
-            registries = new Registries().toAll( input );
+            registries = new Registries().toAll(input);
         } catch (MalformedURLException e) {
             System.out.println(e.getMessage());
         }
