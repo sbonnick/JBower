@@ -6,6 +6,19 @@ jdk:
 env:
   - TERM=dumb
 
+global:
+  - secure: "khzhhZ1U65PI0NJWo7OKAp7Vq4ap1h8LglojYJOLQeWbM4IfqPWnkQTnSp7jFNKglZgzHo4BGI6DLVoE+ttT73XC3MkIDnHQFqFejjlhA/XdTLiEiJf65y/rb9JRJ4dIlHNPrzvEWenTASSjsb723ovd1cqKIe/xfq5FoyT532Y="
+
+addons:
+  coverity_scan:
+    project:
+      name: "sbonnick/JBower"
+      description: "Build submitted via Travis CI"
+    notification_email: stewart.bonnick@autoclavestudios.com
+    build_command_prepend: "mvn clean"
+    build_command:   "mvn -DskipTests=true compile"
+    branch_pattern: coverity_scan
+
 git:
   depth: 10
 
