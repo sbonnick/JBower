@@ -2,7 +2,7 @@
 Pure Java Alternative to Bower
 
 [![Circle CI](https://img.shields.io/circleci/project/sbonnick/JBower/master.svg?style=svg)](https://circleci.com/gh/sbonnick/JBower/tree/master)
-[![Codecov](https://img.shields.io/codecov/c/github/sbonnick/JBower/master.svg)](https://codecov.io/github/sbonnick/JBower/branch.svg?branch=master)
+[![Codecov](https://img.shields.io/codecov/c/github/sbonnick/JBower/master.svg)](https://codecov.io/github/sbonnick/JBower?branch=master)
 [![Dependency Status](https://www.versioneye.com/user/projects/552830ac2ced4ffffe000e0c/badge.svg?style=flat)](https://www.versioneye.com/user/projects/552830ac2ced4ffffe000e0c)
 [![License](http://img.shields.io/:license-apache-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 
