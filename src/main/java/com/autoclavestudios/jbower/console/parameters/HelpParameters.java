@@ -23,5 +23,5 @@ import com.beust.jcommander.Parameter;
 public class HelpParameters {
 
     @Parameter(names = { "-h", "--help" }, description = "Show this help message", help = true)
-    private boolean help;
+    public boolean help;
 }

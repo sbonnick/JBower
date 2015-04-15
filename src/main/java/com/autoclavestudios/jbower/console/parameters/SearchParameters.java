@@ -29,9 +29,9 @@ import java.util.List;
 public class SearchParameters {
 
     @Parameter(description = "name")
-    private List<String> name = new ArrayList<>();
+    public List<String> name = new ArrayList<>();
 
     @ParametersDelegate
-    private GlobalParameters delegate = new GlobalParameters();
+    public GlobalParameters delegate = new GlobalParameters();
 
 }

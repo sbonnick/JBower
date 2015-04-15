@@ -23,29 +23,29 @@ import com.beust.jcommander.Parameter;
 public class GlobalParameters {
 
     @Parameter(names = { "-h", "--help" }, description = "Show this help message", help = true)
-    private boolean help;
+    public boolean help;
 
     @Parameter(names = { "-f", "--force" }, description = "Makes various commands more forceful")
-    private boolean force = false;
+    public boolean force = false;
 
     @Parameter(names = { "-j", "--json" }, description = "Output consumable JSON")
-    private boolean json = false;
+    public boolean json = false;
 
     @Parameter(names = { "-l", "--log-level" }, description = "What level of logs to report")
-    private int logLevel = 3;
+    public int logLevel = 3;
 
     @Parameter(names = { "-o", "--offline" }, description = "Do not hit the network")
-    private boolean offline = false;
+    public boolean offline = false;
 
     @Parameter(names = { "-q", "--quiet" }, description = "Only output important information")
-    private boolean quiet = false;
+    public boolean quiet = false;
 
     @Parameter(names = { "-s", "--silent" }, description = "Do not output anything, besides errors")
-    private boolean silent = false;
+    public boolean silent = false;
 
     @Parameter(names = { "-v", "--verbose" }, description = "Makes output more verbose")
-    private boolean verbose = false;
+    public boolean verbose = false;
 
     @Parameter(names = "--version", description = "Output JBower version")
-    private boolean version = false;
+    public boolean version = false;
 }

@@ -35,16 +35,28 @@ public class Main {
 
         try {
             jc.parse(args);
-        } catch (ParameterException ex) {
-            System.out.println(ex.getMessage());
-            if(jc.getParsedCommand() != null) {
-                jc.usage(jc.getParsedCommand());
-            } else {
-                jc.usage();
+
+            if (searchParameters.delegate.help || helpParameters.help) {
+                printHelp(jc);
             }
+
+        } catch (ParameterException ex) {
+            System.out.println();
+            System.out.println(ex.getMessage());
+            printHelp(jc);
         }
+
 
         // Call search function
     }
 
+
+    private static void printHelp(JCommander jc) {
+        System.out.println();
+        if(jc.getParsedCommand() != null) {
+            jc.usage(jc.getParsedCommand());
+        } else {
+            jc.usage();
+        }
+    }
 }

@@ -36,7 +36,7 @@ repositories {
 
 dependencies {
     compile     'org.slf4j:slf4j-api:1.7.12'
-    compile     'com.beust:jcommander:1.47'
+    compile     'com.beust:jcommander:1.48'
     //compile     'org.fusesource.jansi:jansi:1.11'
     //compile     'org.eclipse.jgit:org.eclipse.jgit:3.7.0.201502260915-r'
     testCompile 'junit:junit:4.12'
@@ -73,6 +73,7 @@ checkstyle {
 }
 
 task checkstyleHtml << {
+    //noinspection GroovyAssignabilityCheck
     ant.xslt(in: checkstyleMain.reports.xml.destination,
             style: file('gradle/checkstyle-noframes-severity-sorted.xsl'),
             out: new File(checkstyleMain.reports.xml.destination.parent, 'main.html'))
@@ -115,6 +116,7 @@ findbugs {
 }
 
 task findbugsHtml << {
+    //noinspection GroovyAssignabilityCheck
     ant.xslt(in: findbugsMain.reports.xml.destination,
             style: file('gradle/findbugs-default.xsl'),
             out: new File(findbugsMain.reports.xml.destination.parent, 'main.html'))
@@ -165,6 +167,7 @@ cpdCheck {
 }
 
 task cpdHtml << {
+    //noinspection GroovyAssignabilityCheck
     ant.xslt(in: cpdCheck.reports.xml.destination,
             style: file('gradle/cpdhtml.xslt'),
             out: new File(cpdCheck.reports.xml.destination.parent, 'cpdCheck.html'))
@@ -180,6 +183,7 @@ jdepend {
 }
 
 task jdependHtml << {
+    //noinspection GroovyAssignabilityCheck
     ant.xslt(in: jdependMain.reports.xml.destination,
             style: file('gradle/jdepend-report.xslt'),
             out: new File(jdependMain.reports.xml.destination.parent, 'main.html'))
