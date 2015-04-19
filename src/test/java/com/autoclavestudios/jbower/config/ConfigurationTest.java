@@ -30,19 +30,33 @@ public class ConfigurationTest {
 
     Configuration configuration;
     List<URL> registryURL;
+    String jsonObject;
 
     @Before
     public void setUp() {
         registryURL = new ArrayList<>();
         try {
+            registryURL.add(new URL("http://localhost:8000"));
             registryURL.add(new URL("https://bower.herokuapp.com"));
+
         } catch (MalformedURLException e) {
-        System.out.println("Could not cast URL");
-    }
+            System.out.println("Could not cast URL");
+        }
+        jsonObject = "{\n" +
+                "  \"directory\": \"app/components/\",\n" +
+                "  \"analytics\": false,\n" +
+                "  \"timeout\": 120000,\n" +
+                "  \"registry\": {\n" +
+                "    \"search\": [\n" +
+                "      \"http://localhost:8000\",\n" +
+                "      \"https://bower.herokuapp.com\"\n" +
+                "    ]\n" +
+                "  }\n" +
+                "}";
     }
 
     @Test
-    public void createAndRetrieveConfigurationUsingAPI() {
+    public void createConfigurationUsingAPI() {
 
         try {
             configuration = new Configuration()
@@ -55,22 +69,39 @@ public class ConfigurationTest {
                 .storageRegistry("/registry")
                 .timeout((long) 12000)
                 .tmp(".")
-                .registry("https://bower.herokuapp.com");
+                .registry("http://localhost:8000");
+
+            configuration.registry().toPublish("https://bower.herokuapp.com");
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
 
-        assertEquals(configuration.cwd(), ".");
-        assertEquals(configuration.directory(), ".");
-        assertEquals(configuration.shorthandResolver(), "git://example.com/{{shorthand}}.git");
-        assertEquals(configuration.storageCache(), "/cache");
-        assertEquals(configuration.storageCompletion(), "/completion");
-        assertEquals(configuration.storageLinks(), "/links");
-        assertEquals(configuration.storageRegistry(), "/registry");
-        assertEquals((long)configuration.timeout(), (long)12000);
-        assertEquals(configuration.tmp(), ".");
+        assertEquals(".", configuration.cwd());
+        assertEquals(".", configuration.directory());
+        assertEquals("git://example.com/{{shorthand}}.git", configuration.shorthandResolver());
+        assertEquals("/cache", configuration.storageCache());
+        assertEquals("/completion", configuration.storageCompletion());
+        assertEquals("/links", configuration.storageLinks());
+        assertEquals("/registry", configuration.storageRegistry());
+        assertEquals((long)12000, (long)configuration.timeout());
+        assertEquals(".", configuration.tmp());
         assertThat(configuration.registry().toPublish(), is(registryURL));
+    }
+
+    @Test
+    public void createConfigurationUsingJSON() {
+
+        try {
+            configuration = new Configuration().fromJson(jsonObject);
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        assertEquals("app/components/", configuration.directory());
+        assertEquals((long) 120000, (long) configuration.timeout());
+        assertThat(configuration.registry().toSearch(), is(registryURL));
     }
 
 }

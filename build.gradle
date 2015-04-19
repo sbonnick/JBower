@@ -37,6 +37,8 @@ repositories {
 dependencies {
     compile     'org.slf4j:slf4j-api:1.7.12'
     compile     'com.beust:jcommander:1.48'
+    compile     'com.google.guava:guava:18.0'
+    compile     'com.fasterxml.jackson.core:jackson-databind:2.5.2'
     //compile     'org.fusesource.jansi:jansi:1.11'
     //compile     'org.eclipse.jgit:org.eclipse.jgit:3.7.0.201502260915-r'
     testCompile 'junit:junit:4.12'

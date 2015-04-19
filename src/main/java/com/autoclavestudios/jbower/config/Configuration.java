@@ -15,13 +15,31 @@
  */
 package com.autoclavestudios.jbower.config;
 
+import com.beust.jcommander.internal.Lists;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Iterables;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Array;
 import java.net.MalformedURLException;
+import java.util.stream.StreamSupport;
 
 /**
  * Created by stewart on 4/5/2015.
  */
 public class Configuration {
+
+    /*
+     * TODO: getter/setter supported by annotations using fluid style
+     *
+     * In the future, this class can be converted to use a getter setter annotation style which maps to a generic
+     * fluid style get and set methods.
+     */
 
     private String directory;
     private String cwd;
@@ -42,6 +60,9 @@ public class Configuration {
     //TODO: Config support for strict-ssl
     //TODO: Config support for ca
 
+    private final Logger logger = LoggerFactory.getLogger(Configuration.class);
+
+    ObjectMapper mapper = new ObjectMapper();
 
     public Configuration() {
         directory = "bower_components";
@@ -62,9 +83,66 @@ public class Configuration {
 
     public String toJson() { return ""; }
 
-    public Configuration fromJson(String json) { return this; }
+    public Configuration fromJson(String json) throws MalformedURLException {
 
-    public Configuration fromJson(File jsonFile) { return this; }
+        try {
+            JsonNode root = mapper.readTree(json);
+
+            directory = root.path("directory").asText(directory);
+            cwd = root.path("cwd").asText(cwd);
+            timeout = root.path("timeout").asLong(timeout);
+            tmp = root.path("cwd").asText(cwd);
+            storageCache = root.path("storageCache").asText(storageCache);
+            storageRegistry = root.path("storageRegistry").asText(storageRegistry);
+            storageLinks = root.path("storageLinks").asText(storageLinks);
+            storageCompletion = root.path("storageCompletion").asText(storageCompletion);
+            shorthandResolver = root.path("shorthandResolver").asText(shorthandResolver);
+
+            JsonNode subNode;
+            JsonNode registryNode = root.path("registry");
+            if (!registryNode.isMissingNode()) {
+                if (registryNode.isValueNode()) {
+                    registries.toAll(registryNode.asText());
+                } else {
+
+                    // search
+                    subNode = registryNode.path("search");
+                    if (!subNode.isMissingNode()) {
+                        if (subNode.isArray()) {
+
+                            //subNode.forEach(element -> registries.toSearch(element.asText());
+
+                            // TODO: should be casted to array first for error checking I think. perhaps jasckson can do this?
+                            for (JsonNode jn : subNode) {
+                                registries.toSearch(jn.asText());
+                            }
+
+                        } else if (subNode.isValueNode()) {
+                            registries.toSearch(subNode.asText());
+                        } else {
+                            //error
+                        }
+                    } else {
+                        // search not found
+                    }
+                }
+            }
+        } catch (MalformedURLException e) {
+            logger.error("Malformed URL");
+        } catch (JsonProcessingException e) {
+            logger.error("could not parse JSON");
+        } catch (IOException e) {
+            logger.error("IO ERROR");
+        } catch (NullPointerException e) {
+            logger.error("NULL POINTER",e);
+        }
+
+        return this;
+    }
+
+    public Configuration fromJson(File jsonFile) throws MalformedURLException {
+        return this;
+    }
 
     /*
      *  Getter and setter functions
