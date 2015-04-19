@@ -1,0 +1,57 @@
+
+apply plugin: 'pmd'
+apply plugin: 'cpd'
+
+def pmdConfigDir = new File(buildscript.sourceFile.parentFile, 'pmd')
+
+//PMD
+dependencies {
+    pmd 'net.sourceforge.pmd:pmd:5.3.0'
+    pmd 'net.sourceforge.pmd:pmd-java:5.3.0'
+}
+
+pmd {
+    ignoreFailures = true
+    toolVersion = "5.3.0"
+    ruleSets = ["java-basic", "java-braces", "java-codesize", "java-strings",
+                "java-design", "java-unusedcode", "java-imports", "java-optimizations"]
+}
+
+pmdMain {
+    reports {
+        xml.enabled true
+        html.enabled false
+    }
+}
+
+task pmdHtml << {
+    ant.xslt(
+            in: "$reporting.baseDir/pmd/main.xml",
+            style: new File(pmdConfigDir, 'pmd-report.xslt'),
+            out:"$reporting.baseDir/pmd/main.html")
+}
+
+pmdMain.finalizedBy pmdHtml
+
+// CPD
+cpd {
+    toolVersion = "5.3.0"
+    minimumTokenCount = 25
+}
+
+cpdCheck {
+    ignoreFailures = true
+    reports {
+        xml.enabled true
+    }
+}
+
+task cpdHtml << {
+    //noinspection GroovyAssignabilityCheck
+    ant.xslt(in: cpdCheck.reports.xml.destination,
+            style: new File(pmdConfigDir, 'cpdhtml.xslt'),
+            out: new File(cpdCheck.reports.xml.destination.parent, 'cpdCheck.html'))
+}
+
+cpdCheck.finalizedBy cpdHtml
+

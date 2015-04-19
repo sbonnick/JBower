@@ -110,8 +110,6 @@ public class Configuration {
                     if (!subNode.isMissingNode()) {
                         if (subNode.isArray()) {
 
-                            //subNode.forEach(element -> registries.toSearch(element.asText());
-
                             // TODO: should be casted to array first for error checking I think. perhaps jasckson can do this?
                             for (JsonNode jn : subNode) {
                                 registries.toSearch(jn.asText());

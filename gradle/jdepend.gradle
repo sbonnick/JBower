@@ -1,0 +1,19 @@
+
+apply plugin: 'jdepend'
+
+def jdependConfigDir = new File(buildscript.sourceFile.parentFile, 'jdepend')
+
+jdepend {
+    toolVersion = "2.9.1"
+    sourceSets = [sourceSets.main]
+    ignoreFailures = true
+}
+
+task jdependHtml << {
+    //noinspection GroovyAssignabilityCheck
+    ant.xslt(in: jdependMain.reports.xml.destination,
+            style: new File(jdependConfigDir, 'jdepend-report.xslt'),
+            out: new File(jdependMain.reports.xml.destination.parent, 'main.html'))
+}
+
+jdependMain.finalizedBy jdependHtml

@@ -11,22 +11,11 @@ buildscript {
     }
 }
 
-apply plugin: "com.github.hierynomus.license"
-apply plugin: "com.github.kt3k.coveralls"
-
 apply plugin: 'java'
-apply plugin: 'idea'
 apply plugin: 'application'
 
-apply plugin: 'jdepend'
-apply plugin: 'checkstyle'
-apply plugin: 'pmd'
-apply plugin: 'cpd'
-apply plugin: 'findbugs'
-
-apply plugin: 'jacoco'
-
 mainClassName = "com.autoclavestudios.jbower.console.Main"
+
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
@@ -45,161 +34,16 @@ dependencies {
     testRuntime 'org.slf4j:slf4j-simple:1.7.12'
 }
 
-idea.project.ipr {
-    withXml { provider ->
-        provider.node.component
-                .find { it.@name == 'VcsDirectoryMappings' }.mapping.@vcs = 'Git'
-    }
-}
+apply from: "$rootDir/gradle/checkstyle.gradle"
+apply from: "$rootDir/gradle/jdepend.gradle"
+apply from: "$rootDir/gradle/pmd.gradle"
+apply from: "$rootDir/gradle/findbugs.gradle"
+apply from: "$rootDir/gradle/license.gradle"
+apply from: "$rootDir/gradle/coverage.gradle"
+apply from: "$rootDir/gradle/idea.gradle"
 
-idea {
-    module {
-        downloadJavadoc = true
-        downloadSources = true
-    }
-}
 
 task wrapper(type: Wrapper) {
 	gradleVersion = "2.3"
 }
 
-// Checkstyle
-def checkstyleConfigDir = file('gradle') //new File(buildscript.sourceFile.parentFile, 'checkstyle')
-
-checkstyle {
-    ignoreFailures true
-    toolVersion = "6.5"
-    configFile =  new File(checkstyleConfigDir, "google_checks.xml")
-    configProperties.checkstyleConfigDir = checkstyleConfigDir
-    showViolations = false
-}
-
-task checkstyleHtml << {
-    //noinspection GroovyAssignabilityCheck
-    ant.xslt(in: checkstyleMain.reports.xml.destination,
-            style: file('gradle/checkstyle-noframes-severity-sorted.xsl'),
-            out: new File(checkstyleMain.reports.xml.destination.parent, 'main.html'))
-}
-
-checkstyleMain.finalizedBy checkstyleHtml
-
-
-// License
-license {
-    header = project.file('gradle/HEADER')
-    strictCheck = true
-    ext.year = Calendar.getInstance().get(Calendar.YEAR)
-    ext.name = 'Stewart Bonnick'
-    ext.email = 'stewart.bonnick@autoclavestudios.com'
-}
-
-downloadLicenses {
-    ext.apacheTwo = license('Apache License, Version 2.0', 'http://opensource.org/licenses/Apache-2.0')
-    ext.apache = license('Apache License, Version 1.1', 'http://opensource.org/licenses/Apache-1.1')
-    ext.bsd2 = license('BSD License', 'http://www.opensource.org/licenses/bsd-license.php')
-    ext.bsd3 = license('New BSD License', 'http://opensource.org/licenses/BSD-3-Clause')
-    includeProjectDependencies = true
-    dependencyConfiguration = 'compile'
-    aliases = [
-            (apache) : ['Apache License', license('Apache License, Version 1.1', 'http://opensource.org/licenses/Apache-1.1')],
-            (apacheTwo) : ['The Apache Software License, Version 2.0', 'Apache 2', 'Apache License Version 2.0', 'Apache License, Version 2.0', 'Apache License 2.0', license('Apache License', 'http://www.apache.org/licenses/LICENSE-2.0')],
-            (bsd2) : ['BSD', license('BSD License', 'http://www.opensource.org/licenses/bsd-license.php')],
-            (bsd3) : ['New BSD License', 'Revised BSD', 'Eclipse Distribution License (New BSD License)', license('New BSD License', 'http://opensource.org/licenses/BSD-3-Clause')]
-    ]
-}
-
-
-// findbugs
-findbugs {
-    ignoreFailures = true
-    toolVersion = "3.0.1"
-    effort = "max"
-    reportLevel = "low"
-}
-
-task findbugsHtml << {
-    //noinspection GroovyAssignabilityCheck
-    ant.xslt(in: findbugsMain.reports.xml.destination,
-            style: file('gradle/findbugs-default.xsl'),
-            out: new File(findbugsMain.reports.xml.destination.parent, 'main.html'))
-}
-
-findbugsMain.finalizedBy findbugsHtml
-
-//PMD
-dependencies {
-    pmd 'net.sourceforge.pmd:pmd:5.3.0'
-    pmd 'net.sourceforge.pmd:pmd-java:5.3.0'
-}
-
-pmd {
-    ignoreFailures = true
-    toolVersion = "5.3.0"
-    ruleSets = ["java-basic", "java-braces", "java-codesize", "java-strings",
-                "java-design", "java-unusedcode", "java-imports", "java-optimizations"]
-}
-
-pmdMain {
-    reports {
-        xml.enabled true
-        html.enabled false
-    }
-}
-
-task pmdHtml << {
-    ant.xslt(
-            in: "$reporting.baseDir/pmd/main.xml",
-            style: "gradle/pmd-report.xslt",
-            out:"$reporting.baseDir/pmd/main.html")
-}
-
-pmdMain.finalizedBy pmdHtml
-
-// CPD
-cpd {
-    toolVersion = "5.3.0"
-    minimumTokenCount = 25
-}
-
-cpdCheck {
-    ignoreFailures = true
-    reports {
-        xml.enabled true
-    }
-}
-
-task cpdHtml << {
-    //noinspection GroovyAssignabilityCheck
-    ant.xslt(in: cpdCheck.reports.xml.destination,
-            style: file('gradle/cpdhtml.xslt'),
-            out: new File(cpdCheck.reports.xml.destination.parent, 'cpdCheck.html'))
-}
-
-cpdCheck.finalizedBy cpdHtml
-
-// JDepend
-jdepend {
-    toolVersion = "2.9.1"
-    sourceSets = [sourceSets.main]
-    ignoreFailures = true
-}
-
-task jdependHtml << {
-    //noinspection GroovyAssignabilityCheck
-    ant.xslt(in: jdependMain.reports.xml.destination,
-            style: file('gradle/jdepend-report.xslt'),
-            out: new File(jdependMain.reports.xml.destination.parent, 'main.html'))
-}
-
-jdependMain.finalizedBy jdependHtml
-
-
-// Coverage
-jacocoTestReport {
-    reports {
-        xml.enabled = true
-        html.enabled = true
-    }
-}
-
-check.finalizedBy jacocoTestReport

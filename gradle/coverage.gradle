@@ -1,0 +1,13 @@
+
+apply plugin: 'jacoco'
+apply plugin: "com.github.kt3k.coveralls"
+
+// Coverage
+jacocoTestReport {
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+}
+
+check.finalizedBy jacocoTestReport

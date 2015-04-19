@@ -1,0 +1,20 @@
+
+apply plugin: 'findbugs'
+
+def findbugsConfigDir = new File(buildscript.sourceFile.parentFile, 'findbugs')
+
+findbugs {
+    ignoreFailures = true
+    toolVersion = "3.0.1"
+    effort = "max"
+    reportLevel = "low"
+}
+
+task findbugsHtml << {
+    //noinspection GroovyAssignabilityCheck
+    ant.xslt(in: findbugsMain.reports.xml.destination,
+            style: new File(findbugsConfigDir, 'findbugs-default.xsl'),
+            out: new File(findbugsMain.reports.xml.destination.parent, 'main.html'))
+}
+
+findbugsMain.finalizedBy findbugsHtml

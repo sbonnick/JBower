@@ -1,0 +1,21 @@
+
+apply plugin: 'checkstyle'
+
+def checkstyleConfigDir = new File(buildscript.sourceFile.parentFile, 'checkstyle')
+
+checkstyle {
+    ignoreFailures true
+    toolVersion = "6.5"
+    configFile =  new File(checkstyleConfigDir, "google_checks.xml")
+    configProperties.checkstyleConfigDir = checkstyleConfigDir
+    showViolations = false
+}
+
+task checkstyleHtml << {
+    //noinspection GroovyAssignabilityCheck
+    ant.xslt(in: checkstyleMain.reports.xml.destination,
+            style: new File(checkstyleConfigDir, 'checkstyle-noframes-severity-sorted.xsl'),
+            out: new File(checkstyleMain.reports.xml.destination.parent, 'main.html'))
+}
+
+checkstyleMain.finalizedBy checkstyleHtml

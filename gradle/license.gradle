@@ -1,0 +1,26 @@
+
+apply plugin: "com.github.hierynomus.license"
+
+// License
+license {
+    header = project.file('gradle/HEADER')
+    strictCheck = true
+    ext.year = Calendar.getInstance().get(Calendar.YEAR)
+    ext.name = 'Stewart Bonnick'
+    ext.email = 'stewart.bonnick@autoclavestudios.com'
+}
+
+downloadLicenses {
+    ext.apacheTwo = license('Apache License, Version 2.0', 'http://opensource.org/licenses/Apache-2.0')
+    ext.apache = license('Apache License, Version 1.1', 'http://opensource.org/licenses/Apache-1.1')
+    ext.bsd2 = license('BSD License', 'http://www.opensource.org/licenses/bsd-license.php')
+    ext.bsd3 = license('New BSD License', 'http://opensource.org/licenses/BSD-3-Clause')
+    includeProjectDependencies = true
+    dependencyConfiguration = 'compile'
+    aliases = [
+            (apache) : ['Apache License', license('Apache License, Version 1.1', 'http://opensource.org/licenses/Apache-1.1')],
+            (apacheTwo) : ['The Apache Software License, Version 2.0', 'Apache 2', 'Apache License Version 2.0', 'Apache License, Version 2.0', 'Apache License 2.0', license('Apache License', 'http://www.apache.org/licenses/LICENSE-2.0')],
+            (bsd2) : ['BSD', license('BSD License', 'http://www.opensource.org/licenses/bsd-license.php')],
+            (bsd3) : ['New BSD License', 'Revised BSD', 'Eclipse Distribution License (New BSD License)', license('New BSD License', 'http://opensource.org/licenses/BSD-3-Clause')]
+    ]
+}
