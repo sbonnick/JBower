@@ -1,3 +1,8 @@
+general:
+  branches:
+    ignore:
+      - gh-pages
+
 machine:
   java:
     version: oraclejdk8
@@ -11,7 +16,8 @@ checkout:
     
 test:
   override:
-     - ./gradlew check
+    - ./gradlew test
+    - ./gradlew check
   post:
     - ./gradlew coveralls
     - codecov --token=67aaf07b-a4cf-4067-b05e-ca41d979232a
