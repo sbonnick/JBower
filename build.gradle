@@ -7,7 +7,7 @@ buildscript {
     dependencies {
         classpath "org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.3.1"
         classpath "nl.javadude.gradle.plugins:license-gradle-plugin:0.11.0"
-        classpath 'de.aaschmid.gradle.plugins:gradle-cpd-plugin:0.3'
+        classpath 'de.aaschmid.gradle.plugins:gradle-cpd-plugin:0.4'
     }
 }
 
@@ -26,10 +26,7 @@ repositories {
 dependencies {
     compile     'org.slf4j:slf4j-api:1.7.12'
     compile     'com.beust:jcommander:1.48'
-    compile     'com.google.guava:guava:18.0'
     compile     'com.fasterxml.jackson.core:jackson-databind:2.5.2'
-    //compile     'org.fusesource.jansi:jansi:1.11'
-    //compile     'org.eclipse.jgit:org.eclipse.jgit:3.7.0.201502260915-r'
     testCompile 'junit:junit:4.12'
     testRuntime 'org.slf4j:slf4j-simple:1.7.12'
 }

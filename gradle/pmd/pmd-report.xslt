@@ -12,7 +12,7 @@
       Often set to ${buildir} or ${basedir}.
 
     ANT Usage:
-      <xslt in="foo.xml" style="ag-pmd-report.xslt" out="foo.html">
+      <xslt in="foo.xml" checkstyle="ag-pmd-report.xslt" out="foo.html">
         <param name="title" expression="${build.name}"/>
         <param name="filepathheader" expression="${basedir}"/>
       </xslt>

@@ -30,7 +30,6 @@ public class ConfigurationTest {
 
     Configuration configuration;
     List<URL> registryURL;
-    String jsonObject;
 
     @Before
     public void setUp() {
@@ -42,21 +41,10 @@ public class ConfigurationTest {
         } catch (MalformedURLException e) {
             System.out.println("Could not cast URL");
         }
-        jsonObject = "{\n" +
-                "  \"directory\": \"app/components/\",\n" +
-                "  \"analytics\": false,\n" +
-                "  \"timeout\": 120000,\n" +
-                "  \"registry\": {\n" +
-                "    \"search\": [\n" +
-                "      \"http://localhost:8000\",\n" +
-                "      \"https://bower.herokuapp.com\"\n" +
-                "    ]\n" +
-                "  }\n" +
-                "}";
     }
 
     @Test
-    public void createConfigurationUsingAPI() {
+    public void createComplexConfiguration() {
 
         try {
             configuration = new Configuration()
@@ -71,7 +59,7 @@ public class ConfigurationTest {
                 .tmp(".")
                 .registry("http://localhost:8000");
 
-            configuration.registry().toPublish("https://bower.herokuapp.com");
+            configuration.registry().publish("https://bower.herokuapp.com");
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -84,24 +72,23 @@ public class ConfigurationTest {
         assertEquals("/completion", configuration.storageCompletion());
         assertEquals("/links", configuration.storageLinks());
         assertEquals("/registry", configuration.storageRegistry());
-        assertEquals((long)12000, (long)configuration.timeout());
+        assertEquals((long)12000, (long) configuration.timeout());
         assertEquals(".", configuration.tmp());
-        assertThat(configuration.registry().toPublish(), is(registryURL));
+        assertThat(configuration.registry().publish(), is(registryURL));
     }
 
     @Test
-    public void createConfigurationUsingJSON() {
-
+    public void createConfigurationUsingRegistryObject() {
         try {
-            configuration = new Configuration().fromJson(jsonObject);
-
+            configuration = new Configuration()
+                    .registry(new Registry()
+                            .all("http://localhost:8000",
+                                    "https://bower.herokuapp.com")
+                    );
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
 
-        assertEquals("app/components/", configuration.directory());
-        assertEquals((long) 120000, (long) configuration.timeout());
-        assertThat(configuration.registry().toSearch(), is(registryURL));
+        assertThat(configuration.registry().publish(), is(registryURL));
     }
-
 }

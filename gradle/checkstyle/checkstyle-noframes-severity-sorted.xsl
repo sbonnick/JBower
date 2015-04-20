@@ -18,9 +18,9 @@
 <!--      <fileset dir="${src.dir}" includes="**/*.java"/>                          -->
 <!--      <formatter type="xml" toFile="${doc.dir}/checkstyle_report.xml"/>         -->
 <!--    </checkstyle>                                                               -->
-<!--    <style basedir="${doc.dir}" destdir="${doc.dir}"                            -->
+<!--    <checkstyle basedir="${doc.dir}" destdir="${doc.dir}"                            -->
 <!--            includes="checkstyle_report.xml"                                    -->
-<!--            style="${doc.dir}/checkstyle-noframes-severity-sorted.xsl"/>        -->
+<!--            checkstyle="${doc.dir}/checkstyle-noframes-severity-sorted.xsl"/>        -->
 
 <xsl:template match="checkstyle">
   <html>

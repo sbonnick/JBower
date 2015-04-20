@@ -16,6 +16,8 @@
 package com.autoclavestudios.jbower.config;
 
 import org.junit.*;
+import org.junit.rules.ExpectedException;
+
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 import java.net.MalformedURLException;
@@ -27,9 +29,9 @@ import java.util.List;
 /**
  * Created by stewart on 4/5/2015.
  */
-public class RegistriesTest {
+public class RegistryTest {
 
-    Registries registries;
+    Registry registry;
     String[] input;
     List<URL> output;
     List<URL> empty;
@@ -53,84 +55,93 @@ public class RegistriesTest {
 
     @Test
     public void addUrlsToAllRegistries() {
-        registries = new Registries().toAll( output.toArray(new URL[output.size()]) );
+        registry = new Registry().all(output.toArray(new URL[output.size()]));
 
-        assertThat(registries.toSearch(), is(output));
-        assertThat(registries.toRegister(), is(output));
-        assertThat(registries.toPublish(), is(output));
+        assertThat(registry.search(), is(output));
+        assertThat(registry.register(), is(output));
+        assertThat(registry.publish(), is(output));
     }
 
     @Test
     public void addURLtoAllRegistriesIndividually() {
         URL[] urlArray = output.toArray(new URL[output.size()]);
 
-        registries = new Registries()
-            .toSearch(urlArray)
-            .toRegister(urlArray)
-            .toPublish(urlArray);
+        registry = new Registry()
+            .search(urlArray)
+            .register(urlArray)
+            .publish(urlArray);
 
-        assertThat(registries.toSearch(), is(output));
-        assertThat(registries.toRegister(), is(output));
-        assertThat(registries.toPublish(), is(output));
+        assertThat(registry.search(), is(output));
+        assertThat(registry.register(), is(output));
+        assertThat(registry.publish(), is(output));
     }
 
     @Test
     public void addStringsToAllRegistries() {
         try {
-            registries = new Registries().toAll(input);
+            registry = new Registry().all(input);
         } catch (MalformedURLException e) {
             System.out.println(e.getMessage());
         }
-        assertThat(registries.toSearch(), is(output));
-        assertThat(registries.toRegister(), is(output));
-        assertThat(registries.toPublish(), is(output));
+        assertThat(registry.search(), is(output));
+        assertThat(registry.register(), is(output));
+        assertThat(registry.publish(), is(output));
     }
 
     @Test
     public void addStringsToSearchRegistry() {
         try {
-            registries = new Registries().toSearch(input);
+            registry = new Registry().search(input);
         } catch (MalformedURLException e) {
             System.out.println(e.getMessage());
         }
-        assertThat(registries.toSearch(), is(output));
-        assertThat(registries.toRegister(), is(empty));
-        assertThat(registries.toPublish(), is(empty));
+        assertThat(registry.search(), is(output));
+        assertThat(registry.register(), is(empty));
+        assertThat(registry.publish(), is(empty));
     }
 
     @Test
     public void addStringsToRegisterRegistry() {
         try {
-            registries = new Registries().toRegister(input);
+            registry = new Registry().toRegister(input);
         } catch (MalformedURLException e) {
             System.out.println(e.getMessage());
         }
-        assertThat(registries.toSearch(), is(empty));
-        assertThat(registries.toRegister(), is(output));
-        assertThat(registries.toPublish(), is(empty));
+        assertThat(registry.search(), is(empty));
+        assertThat(registry.register(), is(output));
+        assertThat(registry.publish(), is(empty));
     }
 
     @Test
     public void addStringsToPublishRegistry() {
         try {
-            registries = new Registries().toPublish(input);
+            registry = new Registry().publish(input);
         } catch (MalformedURLException e) {
             System.out.println(e.getMessage());
         }
-        assertThat(registries.toSearch(), is(empty));
-        assertThat(registries.toRegister(), is(empty));
-        assertThat(registries.toPublish(), is(output));
+        assertThat(registry.search(), is(empty));
+        assertThat(registry.register(), is(empty));
+        assertThat(registry.publish(), is(output));
     }
 
     @Test
     public void clearRegistries() {
         try {
-            registries = new Registries().toSearch(input).clear();
+            registry = new Registry().search(input).clear();
         } catch (MalformedURLException e) {
             System.out.println(e.getMessage());
         }
-        assertThat(registries.toSearch(), is(empty));
-        assertThat(registries.toRegister(), is(empty));
-        assertThat(registries.toPublish(), is(empty));
+        assertThat(registry.search(), is(empty));
+        assertThat(registry.register(), is(empty));
+        assertThat(registry.publish(), is(empty));
+    }
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
+    @Test
+    public void exceptionDuringUrlConversion() throws MalformedURLException {
+        thrown.expect(MalformedURLException.class);
+        registry = new Registry().all("git://localhost:8000");
     }
 }

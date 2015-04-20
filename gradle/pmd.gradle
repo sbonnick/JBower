@@ -36,11 +36,13 @@ pmdMain.finalizedBy pmdHtml
 // CPD
 cpd {
     toolVersion = "5.3.0"
-    minimumTokenCount = 25
+    language = "java"
+    minimumTokenCount = 50
+    ignoreFailures = true
+    ignoreAnnotations = true
 }
 
 cpdCheck {
-    ignoreFailures = true
     reports {
         xml.enabled true
     }

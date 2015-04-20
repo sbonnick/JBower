@@ -15,19 +15,9 @@
  */
 package com.autoclavestudios.jbower.config;
 
-import com.beust.jcommander.internal.Lists;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.collect.Iterables;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.autoclavestudios.jbower.config.internal.ConfigDefaults;
 
-import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Array;
 import java.net.MalformedURLException;
-import java.util.stream.StreamSupport;
 
 /**
  * Created by stewart on 4/5/2015.
@@ -35,22 +25,22 @@ import java.util.stream.StreamSupport;
 public class Configuration {
 
     /*
-     * TODO: getter/setter supported by annotations using fluid style
+     * TODO: getter/setter supported by annotations using fluid checkstyle
      *
-     * In the future, this class can be converted to use a getter setter annotation style which maps to a generic
-     * fluid style get and set methods.
+     * In the future, this class can be converted to use a getter setter annotation checkstyle which maps to a generic
+     * fluid checkstyle get and set methods.
      */
 
     private String directory;
     private String cwd;
     private long timeout;
     private String tmp;
-    private String storageCache;
+    private String storagePackages;
     private String storageRegistry;
     private String storageLinks;
     private String storageCompletion;
     private String shorthandResolver;
-    private Registries registries;
+    private Registry registry;
 
     //TODO: Config support for analytics
     //TODO: Config support for color
@@ -60,87 +50,19 @@ public class Configuration {
     //TODO: Config support for strict-ssl
     //TODO: Config support for ca
 
-    private final Logger logger = LoggerFactory.getLogger(Configuration.class);
-
-    ObjectMapper mapper = new ObjectMapper();
-
     public Configuration() {
-        directory = "bower_components";
-        cwd = ""; //get working path
-        timeout = 60000;
-        tmp = ""; //get os tmp directory
-        storageCache = "";
-        storageRegistry = "";
-        storageLinks = "";
-        storageCompletion = "";
-        shorthandResolver =  "git://github.com/{{owner}}/{{package}}.git";
-        registries = new Registries();
+        directory           = ConfigDefaults.DIRECTORY;
+        cwd                 = ConfigDefaults.CWD;
+        timeout             = ConfigDefaults.TIMEOUT;
+        tmp                 = ConfigDefaults.TMP;
+        storagePackages     = ConfigDefaults.STORAGE_PACKAGES;
+        storageRegistry     = ConfigDefaults.STORAGE_REGISTRY;
+        storageLinks        = ConfigDefaults.STORAGE_LINKS;
+        storageCompletion   = ConfigDefaults.STORAGE_COMPLETION;
+        shorthandResolver   = ConfigDefaults.SHORTHAND_RESOLVER;
+        registry            = new Registry();
     }
 
-    public void load(){}
-
-    public void create(String cwd) {}
-
-    public String toJson() { return ""; }
-
-    public Configuration fromJson(String json) throws MalformedURLException {
-
-        try {
-            JsonNode root = mapper.readTree(json);
-
-            directory = root.path("directory").asText(directory);
-            cwd = root.path("cwd").asText(cwd);
-            timeout = root.path("timeout").asLong(timeout);
-            tmp = root.path("cwd").asText(cwd);
-            storageCache = root.path("storageCache").asText(storageCache);
-            storageRegistry = root.path("storageRegistry").asText(storageRegistry);
-            storageLinks = root.path("storageLinks").asText(storageLinks);
-            storageCompletion = root.path("storageCompletion").asText(storageCompletion);
-            shorthandResolver = root.path("shorthandResolver").asText(shorthandResolver);
-
-            JsonNode subNode;
-            JsonNode registryNode = root.path("registry");
-            if (!registryNode.isMissingNode()) {
-                if (registryNode.isValueNode()) {
-                    registries.toAll(registryNode.asText());
-                } else {
-
-                    // search
-                    subNode = registryNode.path("search");
-                    if (!subNode.isMissingNode()) {
-                        if (subNode.isArray()) {
-
-                            // TODO: should be casted to array first for error checking I think. perhaps jasckson can do this?
-                            for (JsonNode jn : subNode) {
-                                registries.toSearch(jn.asText());
-                            }
-
-                        } else if (subNode.isValueNode()) {
-                            registries.toSearch(subNode.asText());
-                        } else {
-                            //error
-                        }
-                    } else {
-                        // search not found
-                    }
-                }
-            }
-        } catch (MalformedURLException e) {
-            logger.error("Malformed URL");
-        } catch (JsonProcessingException e) {
-            logger.error("could not parse JSON");
-        } catch (IOException e) {
-            logger.error("IO ERROR");
-        } catch (NullPointerException e) {
-            logger.error("NULL POINTER",e);
-        }
-
-        return this;
-    }
-
-    public Configuration fromJson(File jsonFile) throws MalformedURLException {
-        return this;
-    }
 
     /*
      *  Getter and setter functions
@@ -148,7 +70,7 @@ public class Configuration {
 
     public String directory() { return this.directory; }
 
-    public Configuration directory(String path){
+    public Configuration directory(final String path){
         this.directory = path;
         return this;
     }
@@ -156,7 +78,7 @@ public class Configuration {
 
     public String cwd() { return this.cwd; }
 
-    public Configuration cwd(String path){
+    public Configuration cwd(final String path){
         this.cwd = path;
         return this;
     }
@@ -164,7 +86,7 @@ public class Configuration {
 
     public Long timeout() { return this.timeout; }
 
-    public Configuration timeout(Long milliseconds){
+    public Configuration timeout(final Long milliseconds){
         this.timeout = milliseconds;
         return this;
     }
@@ -172,21 +94,21 @@ public class Configuration {
 
     public String tmp() { return this.tmp; }
 
-    public Configuration tmp(String path){
+    public Configuration tmp(final String path){
         this.tmp = path;
         return this;
     }
 
-    public String storageCache() { return this.storageCache; }
+    public String storageCache() { return this.storagePackages; }
 
-    public Configuration storageCache(String path){
-        this.storageCache = path;
+    public Configuration storageCache(final String path){
+        this.storagePackages = path;
         return this;
     }
 
     public String storageRegistry() { return this.storageRegistry; }
 
-    public Configuration storageRegistry(String path){
+    public Configuration storageRegistry(final String path){
         this.storageRegistry = path;
         return this;
     }
@@ -194,7 +116,7 @@ public class Configuration {
 
     public String storageLinks() { return this.storageLinks; }
 
-    public Configuration storageLinks(String path){
+    public Configuration storageLinks(final String path){
         this.storageLinks = path;
         return this;
     }
@@ -202,7 +124,7 @@ public class Configuration {
 
     public String storageCompletion() { return this.storageCompletion; }
 
-    public Configuration storageCompletion(String path){
+    public Configuration storageCompletion(final String path){
         this.storageCompletion = path;
         return this;
     }
@@ -210,21 +132,21 @@ public class Configuration {
 
     public String shorthandResolver() { return this.shorthandResolver; }
 
-    public Configuration shorthandResolver(String shorthandResolver) {
+    public Configuration shorthandResolver(final String shorthandResolver) {
         this.shorthandResolver = shorthandResolver;
         return this;
     }
 
 
-    public Registries registry() { return this.registries; }
+    public Registry registry() { return this.registry; }
 
-    public Configuration registry(Registries registries) {
-        this.registries = registries;
+    public Configuration registry(final Registry registry) {
+        this.registry = registry;
         return this;
     }
 
-    public Configuration registry(String toAll) throws MalformedURLException {
-        registries.toAll(toAll);
+    public Configuration registry(final String url) throws MalformedURLException {
+        registry.all(url);
         return this;
     }
 }

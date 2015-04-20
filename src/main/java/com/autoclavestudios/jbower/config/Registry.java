@@ -26,15 +26,15 @@ import java.util.List;
 /**
  * Created by stewart on 4/5/2015.
  */
-public class Registries {
+public class Registry {
 
-    private List<URL> registrySearch;
-    private List<URL> registryRegister;
-    private List<URL> registryPublish;
+    private final List<URL> registrySearch;
+    private final List<URL> registryRegister;
+    private final List<URL> registryPublish;
 
-    private final Logger logger = LoggerFactory.getLogger(Registries.class);
+    private final Logger logger = LoggerFactory.getLogger(Registry.class);
 
-    public Registries() {
+    public Registry() {
         registrySearch = new ArrayList<>();
         registryRegister = new ArrayList<>();
         registryPublish = new ArrayList<>();
@@ -45,21 +45,27 @@ public class Registries {
      *  General functions
      */
 
-    public Registries clear() {
+    public Registry clear() {
         registrySearch.clear();
         registryRegister.clear();
         registryPublish.clear();
         return this;
     }
 
-    public Registries toAll(String ... urls) throws MalformedURLException {
+    /**
+     * Creates registry urls into all registries
+     *
+     * @param urls array of urls to add to all registries
+     * @throws MalformedURLException if any url is malformed
+     */
+    public Registry all(final String ... urls) throws MalformedURLException {
         addUrl(registrySearch, urls);
         addUrl(registryRegister, urls);
         addUrl(registryPublish, urls);
         return this;
     }
 
-    public Registries toAll(URL ... urls) {
+    public Registry all(final URL ... urls) {
         addUrl(registrySearch, urls);
         addUrl(registryRegister, urls);
         addUrl(registryPublish, urls);
@@ -70,13 +76,13 @@ public class Registries {
      *  Search registry methods
      */
 
-    public List<URL> toSearch() { return registrySearch; }
+    public List<URL> search() { return registrySearch; }
 
-    public Registries toSearch(String ... urls) throws MalformedURLException {
+    public Registry search(final String ... urls) throws MalformedURLException {
         return addUrl(registrySearch, urls);
     }
 
-    public Registries toSearch(URL ... urls) {
+    public Registry search(final URL ... urls) {
         return addUrl(registrySearch, urls);
     }
 
@@ -85,13 +91,13 @@ public class Registries {
      *  Register registry methods
      */
 
-    public List<URL> toRegister() { return registryRegister; }
+    public List<URL> register() { return registryRegister; }
 
-    public Registries toRegister(String ... urls) throws MalformedURLException {
+    public Registry toRegister(final String ... urls) throws MalformedURLException {
         return addUrl(registryRegister, urls);
     }
 
-    public Registries toRegister(URL ... urls) {
+    public Registry register(final URL ... urls) {
         return addUrl(registryRegister, urls);
     }
 
@@ -100,13 +106,13 @@ public class Registries {
      *  Publish registry methods
      */
 
-    public List<URL> toPublish() { return registryPublish; }
+    public List<URL> publish() { return registryPublish; }
 
-    public Registries toPublish(String ... urls) throws MalformedURLException {
+    public Registry publish(final String ... urls) throws MalformedURLException {
         return addUrl(registryPublish, urls);
     }
 
-    public Registries toPublish(URL ... urls) {
+    public Registry publish(final URL ... urls) {
         return addUrl(registryPublish, urls);
     }
 
@@ -115,19 +121,19 @@ public class Registries {
      *  Private helper functions
      */
 
-    private Registries addUrl(List<URL> registry, String ... urls) throws MalformedURLException {
-        for(String url : urls) {
+    private Registry addUrl(final List<URL> registry, final String ... urls) throws MalformedURLException {
+        for(final String url : urls) {
             try {
                 registry.add(new URL(url));
             } catch (MalformedURLException e) {
-                logger.error("URL is malformed: {0}", url);
+                logger.error("URL is malformed: '{}'", url);
                 throw e;
             }
         }
         return this;
     }
 
-    private Registries addUrl(List<URL> registry, URL ... urls) {
+    private Registry addUrl(final List<URL> registry, final URL ... urls) {
         Collections.addAll(registry, urls);
         return this;
     }
