@@ -15,6 +15,8 @@
  */
 package com.autoclavestudios.jbower.config.internal;
 
+import java.io.File;
+
 /**
  * Created by stewart on 2015-04-19.
  */
@@ -30,10 +32,10 @@ public final class ConfigDefaults {
 
     public static final String REGISTRY             = "https://bower.herokuapp.com";
 
-    public static final String STORAGE_PACKAGES     = USER_HOME + ".bower/packages";
-    public static final String STORAGE_REGISTRY     = USER_HOME + ".bower/registry";
-    public static final String STORAGE_LINKS        = USER_HOME + ".bower/links";
-    public static final String STORAGE_COMPLETION   = USER_HOME + ".bower/completion";
+    public static final String STORAGE_PACKAGES     = USER_HOME + File.separator + ".bower" + File.separator + "packages";
+    public static final String STORAGE_REGISTRY     = USER_HOME + File.separator + ".bower" + File.separator + "registry";
+    public static final String STORAGE_LINKS        = USER_HOME + File.separator + ".bower" + File.separator + "links";
+    public static final String STORAGE_COMPLETION   = USER_HOME + File.separator + ".bower" + File.separator + "completion";
 
     private ConfigDefaults() {
         // restrict instantiation

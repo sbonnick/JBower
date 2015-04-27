@@ -103,7 +103,7 @@ public class RegistryTest {
     @Test
     public void addStringsToRegisterRegistry() {
         try {
-            registry = new Registry().toRegister(input);
+            registry = new Registry().register(input);
         } catch (MalformedURLException e) {
             System.out.println(e.getMessage());
         }

@@ -19,4 +19,7 @@ package com.autoclavestudios.jbower.config;
  * Created by stewart on 2015-04-19.
  */
 public interface ConfigurationManager {
+
+    public Configuration parse(String data);
+
 }

@@ -93,7 +93,7 @@ public class Registry {
 
     public List<URL> register() { return registryRegister; }
 
-    public Registry toRegister(final String ... urls) throws MalformedURLException {
+    public Registry register(final String ... urls) throws MalformedURLException {
         return addUrl(registryRegister, urls);
     }
 
