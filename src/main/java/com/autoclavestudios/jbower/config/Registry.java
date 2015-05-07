@@ -72,6 +72,31 @@ public class Registry {
         return this;
     }
 
+
+    /*
+     *  Public meta functions
+     */
+
+    public boolean isSimple() {
+
+        int baseSize = registrySearch.size();
+        if ((registryRegister.size() == baseSize) &&
+                (baseSize == registryPublish.size())) {
+
+            if (baseSize == 1) {
+                if (registryRegister.get(0).equals(registrySearch.get(0)) &&
+                        registrySearch.get(0).equals(registryPublish.get(0))) {
+
+                    return true;
+                }
+            } else if(baseSize == 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
     /*
      *  Search registry methods
      */

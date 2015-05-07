@@ -40,8 +40,8 @@ public class RegistryTest {
     public void setUp() {
         empty = Collections.<URL>emptyList();
         input = new String[]{
-                "http://null.autoclavestudios.com",
-                "https://null.autoclavestudios.com"
+                "https://bower.herokuapp.com",
+                "http://localhost:8000"
         };
         output = new ArrayList<>();
         for(String url:input) {
@@ -134,6 +134,37 @@ public class RegistryTest {
         assertThat(registry.search(), is(empty));
         assertThat(registry.register(), is(empty));
         assertThat(registry.publish(), is(empty));
+    }
+
+    @Test
+    public void IsSimpleWithNoUrls() {
+        registry = new Registry();
+        assertEquals(true, registry.isSimple());
+    }
+
+    @Test
+    public void IsSimple() throws MalformedURLException {
+        registry = new Registry().all("https://bower.herokuapp.com");
+        assertEquals(true, registry.isSimple());
+    }
+
+    @Test
+    public void IsNotSimpleWithOneUrl() throws MalformedURLException {
+        registry = new Registry()
+                .search("https://bower.herokuapp.com")
+                .publish("http://localhost:8000")
+                .register("https://bower.herokuapp.com");
+        assertEquals(false, registry.isSimple());
+    }
+
+    @Test
+    public void IsNotSimple() throws MalformedURLException {
+        registry = new Registry()
+                .search("https://bower.herokuapp.com")
+                .publish("https://bower.herokuapp.com")
+                .register("https://bower.herokuapp.com")
+                .search("http://localhost:8000");
+        assertEquals(false, registry.isSimple());
     }
 
     @Rule

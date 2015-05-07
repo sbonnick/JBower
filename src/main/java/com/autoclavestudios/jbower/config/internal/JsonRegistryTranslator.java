@@ -59,10 +59,11 @@ public class JsonRegistryTranslator implements JsonDeserializer<Registry>, JsonS
     @Override
     public JsonElement serialize(Registry src, Type typeOfSrc, JsonSerializationContext context) {
 
-        JsonElement jsonElement;
-        if (MatchingLists(src.publish(), src.register(), src.search()) && (src.search().size() == 1)) {
-            jsonElement = new JsonPrimitive(src.search().get(0).toString());
-
+        JsonElement jsonElement = null;
+        if (src.isSimple()) {
+            if (src.search().size() == 1) {
+                jsonElement = new JsonPrimitive(src.search().get(0).toString());
+            }
         } else {
             JsonObject jsonObject = new JsonObject();
             jsonObject.add("register", ConvertToJsonArray(src.register()));
@@ -81,20 +82,6 @@ public class JsonRegistryTranslator implements JsonDeserializer<Registry>, JsonS
         List<String> list = converter.fromJson(jsonStringArray, type );
 
         return list.toArray(new String[list.size()]);
-    }
-
-
-    //TODO: Remove this and add a "isSimpleRegistry" check to Registry object
-    private Boolean MatchingLists(List<URL> ... lists){
-
-        if (lists.length > 1) {
-            for (int i = 0; i < lists.length - 1; i++) {
-                if (!lists[i].equals(lists[i + 1])) {
-                    return false;
-                }
-            }
-        }
-        return true;
     }
 
     private JsonArray ConvertToJsonArray(List<URL> UrlList){
