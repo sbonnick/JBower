@@ -33,7 +33,7 @@ public class DefaultConfigurationManager implements ConfigurationManager {
     private final Logger logger = LoggerFactory.getLogger(DefaultConfigurationManager.class);
 
     DefaultConfigurationManager() {
-        GsonBuilder builder = new GsonBuilder();
+        GsonBuilder builder = new GsonBuilder().setPrettyPrinting();
         builder.registerTypeAdapter(Registry.class, new JsonRegistryTranslator());
         gson = builder.create();
     }
@@ -43,4 +43,8 @@ public class DefaultConfigurationManager implements ConfigurationManager {
         return gson.fromJson(data, Configuration.class);
     }
 
+    public String parse(Configuration data) {
+
+        return gson.toJson(data);
+    }
 }

@@ -17,6 +17,7 @@ package com.autoclavestudios.jbower.config.internal;
 
 import com.autoclavestudios.jbower.config.Configuration;
 import com.autoclavestudios.jbower.config.ConfigurationManager;
+import com.autoclavestudios.jbower.config.Registry;
 import org.junit.*;
 import static org.hamcrest.CoreMatchers.*;
 import java.net.MalformedURLException;
@@ -84,4 +85,35 @@ public class DefaultConfigurationManagerTest {
         assertEquals((long) ConfigDefaults.TIMEOUT, (long) configuration.timeout());
     }
 
+    @Test
+    public void serializeConfigurationToJSON() throws MalformedURLException {
+
+        Configuration configuration = new Configuration()
+            .directory("app/components")
+            .timeout((long) 120000)
+            .registry(new Registry()
+                .search("http://localhost:8000", "https://bower.herokuapp.com")
+                .publish("http://localhost:8000", "https://bower.herokuapp.com")
+            );
+        String expected = "{\n" +
+                "  \"directory\": \"app/components\",\n" +
+                "  \"timeout\": 120000,\n" +
+                "  \"registry\": {\n" +
+                "    \"register\": [],\n" +
+                "    \"search\": [\n" +
+                "      \"http://localhost:8000\",\n" +
+                "      \"https://bower.herokuapp.com\"\n" +
+                "    ],\n" +
+                "    \"publish\": [\n" +
+                "      \"http://localhost:8000\",\n" +
+                "      \"https://bower.herokuapp.com\"\n" +
+                "    ]\n" +
+                "  }\n" +
+                "}";
+
+        ConfigurationManager configurationManager = new DefaultConfigurationManager();
+        String JsonString = configurationManager.parse(configuration);
+
+        assertEquals(expected, JsonString);
+    }
 }

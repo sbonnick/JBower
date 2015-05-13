@@ -36,8 +36,4 @@ public final class ConfigDefaults {
     public static final String STORAGE_REGISTRY     = USER_HOME + File.separator + ".bower" + File.separator + "registry";
     public static final String STORAGE_LINKS        = USER_HOME + File.separator + ".bower" + File.separator + "links";
     public static final String STORAGE_COMPLETION   = USER_HOME + File.separator + ".bower" + File.separator + "completion";
-
-    private ConfigDefaults() {
-        // restrict instantiation
-    }
 }

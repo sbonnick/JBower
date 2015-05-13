@@ -22,4 +22,6 @@ public interface ConfigurationManager {
 
     public Configuration parse(String data);
 
+    public String parse(Configuration data);
+
 }
