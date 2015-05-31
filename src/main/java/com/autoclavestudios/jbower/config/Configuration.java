@@ -15,6 +15,7 @@
  */
 package com.autoclavestudios.jbower.config;
 
+import com.autoclavestudios.jbower.common.Defaults;
 import com.autoclavestudios.jbower.config.internal.ConfigDefaults;
 
 import java.net.MalformedURLException;
@@ -51,10 +52,10 @@ public class Configuration {
     //TODO: Config support for ca
 
     public Configuration() {
-        directory           = ConfigDefaults.DIRECTORY;
-        cwd                 = ConfigDefaults.CWD;
+        //directory           = ConfigDefaults.DIRECTORY;
+        //cwd                 = ConfigDefaults.CWD;
         timeout             = ConfigDefaults.TIMEOUT;
-        tmp                 = ConfigDefaults.TMP;
+        //tmp                 = ConfigDefaults.TMP;
         storagePackages     = ConfigDefaults.STORAGE_PACKAGES;
         storageRegistry     = ConfigDefaults.STORAGE_REGISTRY;
         storageLinks        = ConfigDefaults.STORAGE_LINKS;
@@ -68,7 +69,9 @@ public class Configuration {
      *  Getter and setter functions
      */
 
-    public String directory() { return this.directory; }
+    public String directory() {
+        return Defaults.getOrDefault(this.directory, ConfigDefaults.DIRECTORY);
+    }
 
     public Configuration directory(final String path){
         this.directory = path;
@@ -76,7 +79,9 @@ public class Configuration {
     }
 
 
-    public String cwd() { return this.cwd; }
+    public String cwd() {
+        return Defaults.getOrDefault(this.cwd, ConfigDefaults.CWD);
+    }
 
     public Configuration cwd(final String path){
         this.cwd = path;
@@ -92,7 +97,9 @@ public class Configuration {
     }
 
 
-    public String tmp() { return this.tmp; }
+    public String tmp() {
+        return Defaults.getOrDefault(this.tmp, ConfigDefaults.TMP);
+    }
 
     public Configuration tmp(final String path){
         this.tmp = path;

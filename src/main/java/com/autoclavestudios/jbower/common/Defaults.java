@@ -13,25 +13,18 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package com.autoclavestudios.jbower.console.parameters;
-
-import com.beust.jcommander.Parameter;
-import com.beust.jcommander.Parameters;
-import com.beust.jcommander.ParametersDelegate;
-
-import java.util.ArrayList;
-import java.util.List;
+package com.autoclavestudios.jbower.common;
 
 /**
- * Created by stewart on 2015-03-30.
+ * Created by stewart on 5/30/2015.
  */
-@Parameters(commandNames = "search",commandDescription = "Search for a given package")
-public class SearchParameters {
+public class Defaults {
 
-    @Parameter(description = "name")
-    public List<String> name = new ArrayList<>();
-
-    @ParametersDelegate
-    public GlobalParameters delegate = new GlobalParameters();
-
+    public static <T> T getOrDefault( T variable, T defaultValue) {
+        if (variable != null && !variable.toString().isEmpty()) {
+            return variable;
+        } else {
+            return defaultValue;
+        }
+    }
 }
