@@ -15,13 +15,9 @@
  */
 package com.autoclavestudios.jbower.common;
 
-import com.beust.jcommander.internal.Nullable;
+import static net.trajano.commons.testing.UtilityClassTestUtil.assertUtilityClassWellDefined;
 import org.junit.*;
-import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertEquals;
-
-import com.autoclavestudios.jbower.common.Defaults;
 
 /**
  * Created by stewart on 5/30/2015.
@@ -59,6 +55,11 @@ public class DefaultsTest {
     public void getOrDefaults_LongZero() {
         Long testObj = (long) 0;
         Long rtnObject = Defaults.getOrDefault(testObj, (long)123);
-        assertEquals((long)0, (long)rtnObject);
+        assertEquals((long)123, (long)rtnObject);
+    }
+
+    @Test
+    public void classWellDefinedUtility() throws Exception {
+        assertUtilityClassWellDefined(Defaults.class);
     }
 }

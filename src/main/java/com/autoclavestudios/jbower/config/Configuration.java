@@ -36,7 +36,7 @@ public class Configuration {
     private String cwd;
     private long timeout;
     private String tmp;
-    private String storagePackages;
+    private String storageCache;
     private String storageRegistry;
     private String storageLinks;
     private String storageCompletion;
@@ -54,13 +54,13 @@ public class Configuration {
     public Configuration() {
         //directory           = ConfigDefaults.DIRECTORY;
         //cwd                 = ConfigDefaults.CWD;
-        timeout             = ConfigDefaults.TIMEOUT;
+        //timeout             = ConfigDefaults.TIMEOUT;
         //tmp                 = ConfigDefaults.TMP;
-        storagePackages     = ConfigDefaults.STORAGE_PACKAGES;
-        storageRegistry     = ConfigDefaults.STORAGE_REGISTRY;
-        storageLinks        = ConfigDefaults.STORAGE_LINKS;
-        storageCompletion   = ConfigDefaults.STORAGE_COMPLETION;
-        shorthandResolver   = ConfigDefaults.SHORTHAND_RESOLVER;
+        //storageCache        = ConfigDefaults.STORAGE_CACHE;
+        //storageRegistry     = ConfigDefaults.STORAGE_REGISTRY;
+        //storageLinks        = ConfigDefaults.STORAGE_LINKS;
+        //storageCompletion   = ConfigDefaults.STORAGE_COMPLETION;
+        //shorthandResolver   = ConfigDefaults.SHORTHAND_RESOLVER;
         registry            = new Registry();
     }
 
@@ -89,7 +89,7 @@ public class Configuration {
     }
 
 
-    public Long timeout() { return this.timeout; }
+    public Long timeout() { return Defaults.getOrDefault(this.timeout, ConfigDefaults.TIMEOUT); }
 
     public Configuration timeout(final Long milliseconds){
         this.timeout = milliseconds;
@@ -106,14 +106,14 @@ public class Configuration {
         return this;
     }
 
-    public String storageCache() { return this.storagePackages; }
+    public String storageCache() { return Defaults.getOrDefault(this.storageCache, ConfigDefaults.STORAGE_CACHE); }
 
     public Configuration storageCache(final String path){
-        this.storagePackages = path;
+        this.storageCache = path;
         return this;
     }
 
-    public String storageRegistry() { return this.storageRegistry; }
+    public String storageRegistry() { return Defaults.getOrDefault(this.storageRegistry, ConfigDefaults.STORAGE_REGISTRY); }
 
     public Configuration storageRegistry(final String path){
         this.storageRegistry = path;
@@ -121,7 +121,7 @@ public class Configuration {
     }
 
 
-    public String storageLinks() { return this.storageLinks; }
+    public String storageLinks() { return Defaults.getOrDefault(this.storageLinks, ConfigDefaults.STORAGE_LINKS); }
 
     public Configuration storageLinks(final String path){
         this.storageLinks = path;
@@ -129,7 +129,7 @@ public class Configuration {
     }
 
 
-    public String storageCompletion() { return this.storageCompletion; }
+    public String storageCompletion() { return Defaults.getOrDefault(this.storageCompletion, ConfigDefaults.STORAGE_COMPLETION); }
 
     public Configuration storageCompletion(final String path){
         this.storageCompletion = path;
@@ -137,7 +137,7 @@ public class Configuration {
     }
 
 
-    public String shorthandResolver() { return this.shorthandResolver; }
+    public String shorthandResolver() { return Defaults.getOrDefault(this.shorthandResolver, ConfigDefaults.SHORTHAND_RESOLVER); }
 
     public Configuration shorthandResolver(final String shorthandResolver) {
         this.shorthandResolver = shorthandResolver;

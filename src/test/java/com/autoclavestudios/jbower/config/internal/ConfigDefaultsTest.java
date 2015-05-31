@@ -13,22 +13,18 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package com.autoclavestudios.jbower.common;
+package com.autoclavestudios.jbower.config.internal;
+
+import org.junit.Test;
+import static net.trajano.commons.testing.UtilityClassTestUtil.assertUtilityClassWellDefined;
 
 /**
- * Created by stewart on 5/30/2015.
+ * Created by stewart on 5/31/2015.
  */
-public final class Defaults {
+public class ConfigDefaultsTest {
 
-    private Defaults() {}
-
-    public static <T> T getOrDefault( T variable, T defaultValue) {
-        if (variable != null
-                && !variable.toString().isEmpty()
-                && !variable.toString().equals("0")) {
-            return variable;
-        } else {
-            return defaultValue;
-        }
+    @Test
+    public void classWellDefinedUtility() throws Exception {
+        assertUtilityClassWellDefined(ConfigDefaults.class);
     }
 }

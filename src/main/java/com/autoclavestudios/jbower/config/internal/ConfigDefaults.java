@@ -22,6 +22,8 @@ import java.io.File;
  */
 public final class ConfigDefaults {
 
+    private ConfigDefaults() {}
+
     private static final String USER_HOME           = System.getProperty("user.home");
 
     public static final String DIRECTORY            = "bower_components";
@@ -32,7 +34,7 @@ public final class ConfigDefaults {
 
     public static final String REGISTRY             = "https://bower.herokuapp.com";
 
-    public static final String STORAGE_PACKAGES     = USER_HOME + File.separator + ".bower" + File.separator + "packages";
+    public static final String STORAGE_CACHE        = USER_HOME + File.separator + ".bower" + File.separator + "packages";
     public static final String STORAGE_REGISTRY     = USER_HOME + File.separator + ".bower" + File.separator + "registry";
     public static final String STORAGE_LINKS        = USER_HOME + File.separator + ".bower" + File.separator + "links";
     public static final String STORAGE_COMPLETION   = USER_HOME + File.separator + ".bower" + File.separator + "completion";

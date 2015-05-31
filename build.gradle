@@ -25,9 +25,9 @@ repositories {
 
 dependencies {
     compile     'org.slf4j:slf4j-api:1.7.12'
-    compile     'com.beust:jcommander:1.48'
     compile     'com.google.code.gson:gson:2.3.1'
     testCompile 'junit:junit:4.12'
+    testCompile 'net.trajano.commons:commons-testing:2.0.0'
     testRuntime 'org.slf4j:slf4j-simple:1.7.12'
 }
 
